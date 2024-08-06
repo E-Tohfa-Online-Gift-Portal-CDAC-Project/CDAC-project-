@@ -1,0 +1,57 @@
+package com.app.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.app.dto.AddressReqDto;
+import com.app.dto.ApiResponse;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.UserRegisterDto;
+import com.app.dto.UserRespDto;
+//import com.app.entitiy.User;
+import com.app.service.UserService;
+
+@RestController
+@RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:3000")
+public class UserController {
+
+	@Autowired // (required = true)
+	private UserService userservice;
+	
+	@PostMapping
+	public UserRespDto addUserDetails(@RequestBody UserRegisterDto dto) {
+		System.out.println("in add emp " + dto);
+		return userservice.registerUserDetails(dto);
+	}
+
+	@PostMapping("/signin")
+	public ResponseEntity<?> autheticateEmployee(@RequestBody @Valid AuthRequestDTO dto) {
+		System.out.println("in auth emp " + dto);
+		try {
+			return ResponseEntity.ok(userservice.authenticateUser(dto));
+		} catch (Exception e) {
+			System.out.println("err " + e);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+
+		}
+	}
+
+//	@PostMapping("/address")
+//	public ResponseEntity<UserRespDto> addAddressToUser(@PathVariable Long userId,
+//			@RequestBody AddressReqDto addressDto) {
+//		// UserRespDto updatedUser = userservice.addAddressToUser(userId, addressDto);
+//		UserRespDto updatedUser = userservice.addAddress(userId, addressDto);
+//		return ResponseEntity.ok(updatedUser);
+//	}
+
+}

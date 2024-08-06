@@ -1,0 +1,65 @@
+package com.app.service;
+
+import java.util.List;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dao.CategoryDao;
+import com.app.dto.ApiResponse;
+import com.app.dto.CategoryDto;
+import com.app.dto.CategoryProductDto;
+import com.app.entitiy.Category;
+
+@Service
+@Transactional
+public class CategoryServiceImpl implements CategoryService {
+
+	@Autowired
+	private CategoryDao categoryDao;
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Override
+	public List<Category> getAllCategories() {
+
+		return categoryDao.findAll();
+	}
+
+	@Override
+	public Category addNewCategory(Category category) {
+
+		Category persistentCategory = categoryDao.save(category);
+		return persistentCategory;
+	}
+
+	@Override
+	public CategoryDto getCategoryDetails(Long categoryId) {
+		// return category details
+		Category categoryEnt = categoryDao.findById(categoryId) // Optional<Category>
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Category ID!!!!"));
+
+		return modelMapper.map(categoryEnt, CategoryDto.class);
+	}
+
+	@Override
+	public ApiResponse updateCategoryDetails(Long categoryId, Category existingCategory) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ApiResponse deleteCategoryDetails(Long categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CategoryProductDto getCategoryAndPostDetails(Long categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,10 @@
+package com.app.dto;
+import java.util.List;
+
+public class CategoryProductDTO {
+	
+	private String categoryName;
+	private String description;
+	private List<ProductPostRespDTO> products;
+
+}

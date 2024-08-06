@@ -1,0 +1,27 @@
+package com.app.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.app.dao.UserDao;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.UserRegisterDto;
+import com.app.dto.UserRespDto;
+
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserDao user;
+
+	public UserRespDto registerUserDetails(UserRegisterDto dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public UserRespDto authenticateUser(AuthRequestDTO request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+}

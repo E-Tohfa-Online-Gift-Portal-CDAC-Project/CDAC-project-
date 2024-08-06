@@ -1,0 +1,19 @@
+package com.app.dto;
+
+import java.util.List;
+
+import com.app.entitiy.CategoryEnum;
+import com.app.entitiy.Product;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CategoryProductDto {
+
+	private CategoryEnum categoryname;
+	private String description;
+	private List<ProductDto> products;
+
+}

@@ -1,0 +1,7 @@
+package com.app.entitiy;
+
+public enum ProductStatus {
+  
+	AVAILABLE,OUTOFSTOCK
+	
+}

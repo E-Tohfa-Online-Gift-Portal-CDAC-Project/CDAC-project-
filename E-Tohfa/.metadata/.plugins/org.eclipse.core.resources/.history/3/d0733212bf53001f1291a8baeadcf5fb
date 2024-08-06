@@ -1,0 +1,115 @@
+package com.app.service;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dao.CategoryDao;
+import com.app.dao.ProductDao;
+import com.app.dao.UserDao;
+import com.app.dto.ApiResponse;
+import com.app.dto.ProductPostReqDTO;
+import com.app.dto.ProductResponse;
+import com.app.entity.Category;
+import com.app.entity.Product;
+import com.app.entity.User;
+
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductDao productdao;
+
+	@Autowired
+	private ModelMapper mapper;
+
+	@Autowired
+	private CategoryDao categoryDao;
+
+	@Autowired
+	private UserDao userDao;
+
+//	@Override
+//	public ApiResponse postNewProduct(ProductPostReqDTO requestDTO) {
+//		System.out.println("service "+ requestDTO);
+//		Category category = categoryDao.findById(requestDTO.getCategoryId())
+//				.orElseThrow(() -> new ResourceNotFoundException("Invalid category id !!!!"));
+//		User seller = userDao.findById(requestDTO.getSellerId())
+//				.orElseThrow(() -> new ResourceNotFoundException("Invalid seller id!!!"));
+//		Product product = mapper.map(requestDTO, Product.class);
+//		//category.addProduct(product);
+//		product.setCategory(category);	
+//		product.setSeller(seller);
+//		Product persistentproduct = productdao.save(product);
+//		return new ApiResponse("New Product added with ID=" + persistentproduct.getProductId());
+//	}
+	
+	@Override
+	public ProductPostReqDTO addProduct(Long categoryId, Product product) {
+
+		Category category = categoryDao.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+
+		boolean isProductNotPresent = true;
+
+		List<Product> products = category.getProducts();
+
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getProductName().equals(product.getProductName())
+					&& products.get(i).getDescription().equals(product.getDescription())) {
+
+				isProductNotPresent = false;
+				break;
+			}
+		}
+
+		if (isProductNotPresent) {
+			product.setImage("default.png");
+
+			product.setCategory(category);
+
+			double specialPrice = product.getPrice() - ((product.getDiscount() * 0.01) * product.getPrice());
+			product.setSpecialPrice(specialPrice);
+
+			Product savedProduct = productdao.save(product);
+
+			return mapper.map(savedProduct, ProductPostReqDTO.class);
+		} else {
+			throw new ApiResponse("Alredy Exist");
+		}
+	}
+
+	@Override
+	public ProductResponse getAllProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+		
+		Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending()
+				: Sort.by(sortBy).descending();
+
+		Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
+
+		Page<Product> pageProducts = productdao.findAll(pageDetails);
+
+		List<Product> products = pageProducts.getContent();
+
+		List<ProductPostReqDTO> productDTOs = products.stream().map(product -> modelMapper.map(product, ProductPostReqDTO.class))
+				.collect(Collectors.toList());
+
+		ProductResponse productResponse = new ProductResponse();
+
+		productResponse.setContent(productDTOs);
+		productResponse.setPageNumber(pageProducts.getNumber());
+		productResponse.setPageSize(pageProducts.getSize());
+		productResponse.setTotalElements(pageProducts.getTotalElements());
+		productResponse.setTotalPages(pageProducts.getTotalPages());
+		productResponse.setLastPage(pageProducts.isLast());
+
+		return productResponse;
+	}
+}

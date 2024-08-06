@@ -1,0 +1,7 @@
+package com.app.service;
+
+
+public interface UserService {
+//user signin
+	UserRespDTO authenticateUser(AuthRequest dto);
+}

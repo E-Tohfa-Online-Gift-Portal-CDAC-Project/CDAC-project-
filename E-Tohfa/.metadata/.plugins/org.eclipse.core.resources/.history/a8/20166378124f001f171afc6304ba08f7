@@ -1,0 +1,6 @@
+package com.sunbeam.entitiy;
+
+public enum OrderStatusValue {
+	SUCCESS,PENDING,CANCELLED
+}
+

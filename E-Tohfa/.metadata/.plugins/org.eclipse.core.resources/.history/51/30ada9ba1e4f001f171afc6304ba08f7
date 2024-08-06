@@ -1,0 +1,5 @@
+package com.app.entitiy;
+
+public class User {
+
+}

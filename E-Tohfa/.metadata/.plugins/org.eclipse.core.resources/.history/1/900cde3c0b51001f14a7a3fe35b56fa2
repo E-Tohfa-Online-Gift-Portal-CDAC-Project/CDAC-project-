@@ -1,0 +1,36 @@
+package com.app.dto;
+
+import java.time.LocalDate;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import com.app.entitiy.Address;
+import com.app.entitiy.Role;
+
+import lombok.Getter;
+import lombok.Setter;
+
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
+public class UserRegisterDto {
+
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String password;
+	private LocalDate dob;	
+	@Enumerated(EnumType.STRING)
+	private String role;	
+	private String userAddress;
+
+}

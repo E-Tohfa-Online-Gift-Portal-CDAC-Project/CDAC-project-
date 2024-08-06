@@ -1,0 +1,55 @@
+package com.app.entitiy;
+import com.app.entitiy.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@EqualsAndHashCode
+@Entity
+@Table("Order")
+public class Order extends BaseEntity {
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private OrderStatusValue orderStatus;
+	
+	private Double total;
+	
+	private String cardNumber;
+	
+	//@JsonIgnore //
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private User user;
+	
+	@OneToMany
+	private List<CartItem> ordercartItems = new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "address_id")
+	private Address address;
+	
+}

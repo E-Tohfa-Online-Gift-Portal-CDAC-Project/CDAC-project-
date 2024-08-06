@@ -1,0 +1,32 @@
+package com.app.service;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.UserDao;
+import com.app.dto.AuthRequest;
+import com.app.dto.UserRespDTO;
+import com.app.entity.User;
+
+
+@Service
+@Transactional
+public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	private UserDao userdao;
+	@Autowired
+	private ModelMapper mapper;
+
+	User user = userDao.findByEmailAndPassword(
+			dto.getEmail(), dto.getPwd())
+			.orElseThrow(() -> 
+			new AuthenticationException("Invalid Email or Password !!!!!!"));
+
+	return mapper.map(user, UserRespDTO.class);
+
+	
+
+}

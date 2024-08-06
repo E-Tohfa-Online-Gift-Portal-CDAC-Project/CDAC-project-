@@ -1,0 +1,37 @@
+package com.sunbeam.entitiy;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sunbeam.entitiy.*;
+
+import java.util.List;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+public class Order extends BaseEntity {
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private OrderStatusValue orderStatus;
+	
+	private Double total;
+	
+	private String cardNumber;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "customer_id", referencedColumnName = "customerId")
+	private Customer customer;
+	
+	@OneToMany
+	private List<CartItem> ordercartItems = new ArrayList<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "address_id", referencedColumnName = "addressId")
+	private Address address;
+
+	
+}

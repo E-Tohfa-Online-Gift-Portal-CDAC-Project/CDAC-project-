@@ -1,0 +1,21 @@
+package com.app.service;
+import java.util.List;
+import com.app.dto.ApiResponse;
+import com.app.dto.CategoryDto;
+import com.app.dto.CategoryProductDto;
+import com.app.entitiy.Category;
+
+public interface CategoryService {
+
+	List<Category> getAllCategories();
+
+	Category addNewCategory(Category category);
+
+	CategoryDto getCategoryDetails(Long categoryId);
+
+	ApiResponse updateCategoryDetails(Long categoryId, Category existingCategory);
+
+	ApiResponse deleteCategoryDetails(Long categoryId);
+
+	CategoryProductDto getCategoryAndPostDetails(Long categoryId);
+}

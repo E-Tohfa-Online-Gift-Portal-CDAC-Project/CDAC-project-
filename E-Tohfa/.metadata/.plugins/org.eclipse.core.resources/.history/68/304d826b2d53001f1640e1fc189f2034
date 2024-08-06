@@ -1,0 +1,45 @@
+package com.app.service;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dao.CategoryDao;
+import com.app.dao.ProductDao;
+import com.app.dao.UserDao;
+import com.app.dto.ApiResponse;
+import com.app.dto.ProductPostReqDTO;
+import com.app.entity.Category;
+import com.app.entity.Product;
+import com.app.entity.User;
+
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductDao productdao;
+
+	@Autowired
+	private ModelMapper mapper;
+
+	@Autowired
+	private CategoryDao categoryDao;
+
+	@Autowired
+	private UserDao userDao;
+
+	@Override
+	public ApiResponse postNewProduct(ProductPostReqDTO requestDTO) {
+		Category category = categoryDao.findById(requestDTO.getCategoryId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid category id !!!!"));
+		User seller = userDao.findById(requestDTO.getSellerId())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid seller id!!!"));
+		Product product = mapper.map(requestDTO, Product.class);
+		//category.addProduct(product);
+		product.setCategory(category);	
+		product.setCategory(category);
+		Product persistentproduct = productdao.save(product);
+		return new ApiResponse("New Product added with ID=" + persistentproduct.getProductId());
+	}
+}

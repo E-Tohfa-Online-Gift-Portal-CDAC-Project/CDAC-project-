@@ -1,0 +1,8 @@
+package com.app.entitiy;
+
+public enum CategoryEnum {
+	
+	HOME_DECOR , GADGETS_ELECTRONICS , FASHION_ACCESORIES , PERSONALIZED_GIFTS , BOOKS ,
+	TOYS_GAMES
+
+}

@@ -1,0 +1,16 @@
+package com.app.entitiy;
+
+public class Admin extends BaseEntity{
+
+//	Column(unique = true)
+//	private String token;
+//	
+//	@Column(unique = true)
+//	private Integer userId;
+//	
+//	private String userType;
+//	
+//	private LocalDateTime sessionStartTime;
+	
+//	private LocalDateTime sessionEndTime;
+}

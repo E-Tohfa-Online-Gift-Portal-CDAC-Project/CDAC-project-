@@ -1,0 +1,29 @@
+package com.app.service;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.custom_exceptions.ResourceNotFoundException;
+import com.app.dao.CategoryDao;
+import com.app.dao.ProductDao;
+import com.app.dao.UserDao;
+
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductDao productdao;
+
+	@Autowired
+	private ModelMapper mapper;
+
+	@Autowired
+	private CategoryDao categoryDao;
+
+	@Autowired
+	private UserDao userDao;
+
+}

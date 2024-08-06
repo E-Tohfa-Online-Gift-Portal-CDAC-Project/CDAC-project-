@@ -1,0 +1,8 @@
+
+
+
+package com.sunbeam.entitiy;
+
+public enum Role {
+	ADMIN, BLOGGER, COMMENTER
+}

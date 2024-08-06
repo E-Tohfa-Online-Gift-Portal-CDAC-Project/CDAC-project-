@@ -1,0 +1,39 @@
+package com.app.entitiy;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+public class Customer extends BaseEntity {
+	
+	private String firstName;
+	
+	private String lastName;
+	
+	private String mobileNo;
+	
+	private String emailId;
+	
+	private String password;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "customer_address_mapping",
+				joinColumns = @JoinColumns(name = "customer_id"),
+			               inverseJoinColumns = @JoinColumn(name = "address_id")
+				)
+	private Map<String, Address> address = new HashMap<>();
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+	private List<Order> orders = new ArrayList<>();
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Cart customerCart;
+
+}

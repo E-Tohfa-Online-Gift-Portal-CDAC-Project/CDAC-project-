@@ -1,0 +1,51 @@
+package com.app.service;
+
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.UserDao;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.UserRegisterDto;
+import com.app.dto.UserRespDto;
+import com.app.entitiy.User;
+import com.app.custom_exceptions.ResourceNotFoundException;
+
+
+@Service
+@Transactional
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserDao user;
+	
+	@Autowired
+	private ModelMapper mapper;
+
+//	public UserRespDto registerUserDetails(UserRegisterDto dto) {
+//
+//		return UserDao.save(dto);
+//	}
+
+	public UserRespDto authenticateUser(AuthRequestDTO request) {
+		
+	//	User u = UserDao.
+	
+			User user = UserDao.findByEmailAndPassword(request.getEmail(), request.getPassword());
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid email or password!!!!"));
+//		// emp --> dto
+		return mapper.map(user, UserRespDto.class);
+	}
+
+@Override
+public UserRespDto registerUserDetails(UserRegisterDto dto) {
+	// TODO Auto-generated method stub
+	return null;
+}
+	
+	
+
+}

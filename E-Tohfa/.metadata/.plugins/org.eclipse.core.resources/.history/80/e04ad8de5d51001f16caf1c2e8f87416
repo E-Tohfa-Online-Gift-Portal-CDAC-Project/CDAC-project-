@@ -1,0 +1,62 @@
+package com.app.service;
+
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.AddressDao;
+import com.app.dao.UserDao;
+import com.app.dto.AddressReqDto;
+import com.app.dto.AddressRespDto;
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.UserRegisterDto;
+import com.app.dto.UserRespDto;
+import com.app.entitiy.Address;
+import com.app.entitiy.User;
+import com.app.custom_exceptions.ResourceNotFoundException;
+
+@Service
+@Transactional
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserDao user;
+
+	@Autowired
+	private AddressDao address;
+
+	@Autowired
+	private ModelMapper mapper;
+
+	public UserRespDto authenticateUser(AuthRequestDTO request) {
+		User u = user.findByEmailAndPassword(request.getEmail(), request.getPassword())
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid email or password!!!!"));
+		return mapper.map(u, UserRespDto.class);
+	}
+
+	@Override
+	public UserRespDto registerUserDetails(UserRegisterDto dto) {
+		User u = mapper.map(dto, User.class);
+		User savUser = user.save(u);
+		return mapper.map(savUser, UserRespDto.class);
+	}
+
+	@Override
+	public UserRespDto addAddress(Long userId, AddressReqDto request) {
+		User u = user.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+		Address address = new Address();
+		address.setBuildingName(request.getBuildingName());
+		address.setCity(request.getCity());
+		address.setLocality(request.getLocality());
+		address.setPincode(request.getPincode());
+		address.setState(request.getState());
+		address.setStreetNo(request.getStreetNo());
+		u.setUserAddress(address);
+		User savedUser = user.save(u);
+		return mapper.map(savedUser, UserRespDto.class);
+	}
+
+}

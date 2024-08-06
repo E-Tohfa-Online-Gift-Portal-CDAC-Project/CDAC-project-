@@ -1,0 +1,63 @@
+package com.app.service;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.CategoryDao;
+import com.app.dao.ProductDao;
+import com.app.dao.UserDao;
+import com.app.dto.ProductDto;
+import com.app.entitiy.Product;
+
+@Service // spring bean holding B.L ,singleton n eager
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+    private ProductDao productDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
+
+    @Autowired
+    private ModelMapper modelMapper;
+	
+	@Override
+	public List<Product> getAllProducts() {
+		return productDao.findAll();
+		
+		
+	}
+
+	@Override
+	public ProductDto createProduct(ProductDto productDTO) {
+		
+		return null;
+	}
+
+	@Override
+	public ProductDto getProductById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProductDto updateProduct(Long id, ProductDto productDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteProduct(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

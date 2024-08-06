@@ -1,0 +1,20 @@
+package com.app.service;
+
+import java.util.List;
+
+import com.app.dto.ProductDto;
+import com.app.entitiy.Product;
+
+public interface ProductService {
+
+	List<Product> getAllProducts();
+
+	ProductDto createProduct(ProductDto productDTO);
+
+	ProductDto getProductById(Long id);
+
+	ProductDto updateProduct(Long id, ProductDto productDTO);
+
+	void deleteProduct(Long id);
+
+}

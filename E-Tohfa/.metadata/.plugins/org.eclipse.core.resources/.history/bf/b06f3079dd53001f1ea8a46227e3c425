@@ -1,0 +1,64 @@
+package com.app.service;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.app.dao.AddressDao;
+import com.app.dao.UserDao;
+import com.app.dto.AddressDTO;
+import com.app.entity.Address;
+
+@Service
+@Transactional
+public class AddressServiceImpl implements AddressService {
+	
+	@Autowired
+	private AddressDao addressDao;
+
+	@Autowired
+	private UserDao userDao;
+
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Override
+	public AddressDTO createAddress(AddressDTO addressDTO) {
+		
+		String country = addressDTO.getCountry();
+		String city = addressDTO.getCity();
+		String pincode = addressDTO.getPincode();
+		String street = addressDTO.getStreet();
+		String buildingName = addressDTO.getBuildingName();
+		
+		return null;
+	}
+
+	@Override
+	public List<AddressDTO> getAddresses() {
+	
+		return null;
+	}
+
+	@Override
+	public AddressDTO getAddress(Long addressId) {
+		
+		return null;
+	}
+
+	@Override
+	public AddressDTO updateAddress(Long addressId, Address address) {
+		
+		return null;
+	}
+
+	@Override
+	public String deleteAddress(Long addressId) {
+		
+		return null;
+	}
+
+}

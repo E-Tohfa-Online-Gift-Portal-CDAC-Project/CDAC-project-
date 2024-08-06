@@ -1,0 +1,29 @@
+package com.sunbeam.entitiy;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
+
+public class Category extends BaseEntity {
+	
+	@Column(name = "name", length = 30, unique = true)
+	private String categoryName;
+	private String description;
+	
+	@OneToMany(mappedBy = "selectedCategory", 
+			cascade = CascadeType.ALL /* ,fetch = FetchType.EAGER */ ,
+			orphanRemoval = true)
+	private List<Product> products = new ArrayList<>();
+
+
+	public Category(String categoryName, String description) {
+		super();
+		this.categoryName = categoryName;
+		this.description = description;
+	}
+	
+
+
+}

@@ -1,0 +1,20 @@
+package com.app.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.app.dto.ApiResponse;
+import com.app.entitiy.Category;
+import com.app.entitiy.User;
+
+public interface CategoryDao extends JpaRepository<Category, Long> {
+	
+	List<Category> getAllCategories();
+	Category addNewCategory(Category category);
+	CategoryDto getCategoryDetails(Long categoryId);
+	ApiResponse updateCategoryDetails(Long categoryId,Category existingCategory);
+	ApiResponse deleteCategoryDetails(Long categoryId);
+	CategoryPostDTO getCategoryAndPostDetails(Long categoryId);
+
+}

@@ -1,0 +1,13 @@
+package com.app.service;
+
+import com.app.dto.AuthRequestDTO;
+import com.app.dto.UserRegisterDto;
+import com.app.dto.UserRespDto;
+
+public interface UserService {
+	
+	UserRespDto registerUserDetails(UserRegisterDto dto);	
+	UserRespDto authenticateUser(AuthRequestDTO request);
+
+
+}

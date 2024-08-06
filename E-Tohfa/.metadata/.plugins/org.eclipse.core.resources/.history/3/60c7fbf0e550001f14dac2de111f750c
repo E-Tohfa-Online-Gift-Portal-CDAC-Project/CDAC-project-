@@ -1,0 +1,12 @@
+package com.app.dto;
+
+public class AddressResDto {
+
+	private String streetNo;
+	private String buildingName;
+	private String locality;
+	private String city;
+	private String state;
+	private String pincode;
+
+}
